@@ -16,7 +16,7 @@ public class User {
 	@Expose
 	private String username;
 	
-	@SerializedName("username")
+	@SerializedName("enabled")
 	@Expose
 	private boolean enabled;
 	
@@ -164,6 +164,10 @@ public class User {
 		return authorization;
 	}
 
+	public void setAuthorization(String authorization) {
+		this.authorization = authorization;
+	}
+
 	public boolean isLogged() {
 		return logged;
 	}
@@ -180,7 +184,15 @@ public class User {
         return language;
     }
 
-    @Override
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

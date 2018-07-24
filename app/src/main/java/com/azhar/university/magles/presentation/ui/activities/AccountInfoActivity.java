@@ -11,11 +11,11 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 
 import com.azhar.university.magles.R;
-import com.azhar.university.magles.domain.models.parse.User;
-import com.azhar.university.magles.domain.utils.ParseManager;
-import com.azhar.university.magles.domain.views.ParseView;
-import com.azhar.university.magles.presentation.presenters.parse.ParsePresenter;
-import com.azhar.university.magles.presentation.presenters.parse.UserPresenterImp;
+import com.azhar.university.magles.domain.models.User;
+import com.azhar.university.magles.domain.utils.UserManager;
+import com.azhar.university.magles.domain.views.UserView;
+import com.azhar.university.magles.presentation.presenters.user.UserPresenter;
+import com.azhar.university.magles.presentation.presenters.user.UserPresenterImp;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 /**
  * A login screen that offers login via email/password.
  */
-public class AccountInfoActivity extends BaseActivity implements ParseView {
+public class AccountInfoActivity extends BaseActivity implements UserView {
     @BindView(R.id.account_info_form)
     View accountInfoFormView;
     @BindView(R.id.toolbar)
@@ -33,7 +33,7 @@ public class AccountInfoActivity extends BaseActivity implements ParseView {
     @BindView(R.id.email)
     AutoCompleteTextView email;
 
-    private ParsePresenter presenter;
+    private UserPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +57,8 @@ public class AccountInfoActivity extends BaseActivity implements ParseView {
         setupSupportedActionBarWithHome(toolbar);
         setActionBarTitle(R.string.title_edit_profile);
 
-        User user = ParseManager.getInstance().getCurrentUser();
-        name.setText(user.getFullName());
+        User user = UserManager.getInstance().getCurrentUser();
+        name.setText(user.getName());
         email.setText(user.getEmail());
     }
 
@@ -132,8 +132,8 @@ public class AccountInfoActivity extends BaseActivity implements ParseView {
     }
 
     private boolean isAccountInfoChange() {
-        User user = ParseManager.getInstance().getCurrentUser();
-        if (!user.getFullName().equals(this.name.getText().toString())) {
+        User user = UserManager.getInstance().getCurrentUser();
+        if (!user.getName().equals(this.name.getText().toString())) {
             return true;
         }
         return false;
@@ -142,10 +142,6 @@ public class AccountInfoActivity extends BaseActivity implements ParseView {
     private boolean isNameValid(String name) {
         //TODO: Replace this with your own logic
         return name.length() > 6;
-    }
-
-    @Override
-    public void onRegisterComplete() {
     }
 
     @Override
@@ -174,11 +170,6 @@ public class AccountInfoActivity extends BaseActivity implements ParseView {
     @Override
     public void showError(String message, View.OnClickListener onClickListener) {
         showRetrySnackBar(message, onClickListener);
-    }
-
-    @Override
-    public void unAuthorized() {
-
     }
 }
 

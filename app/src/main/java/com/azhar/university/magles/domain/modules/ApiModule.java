@@ -17,6 +17,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
@@ -24,7 +25,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -32,41 +33,24 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 @Module
 public class ApiModule {
-    private final SharedPreferences preferences;
     private final File cacheFile;
-    private final Application application;
     private final String url;
 
     public ApiModule(File cacheFile, Application application, String url) {
         this.cacheFile = cacheFile;
-        this.application = application;
-        preferences = PreferenceManager.getDefaultSharedPreferences(application);
         this.url = url;
     }
 
     @Provides
     @Singleton
     Retrofit provideCall() {
-        final User user = UserManager.getCurrentUser(preferences);
-        HttpLoggingInterceptor bodyLogging = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-            @Override
-            public void log(String message) {
-                Log.i(getClass().getSimpleName(), message);
-            }
-        });
-        bodyLogging.setLevel(HttpLoggingInterceptor.Level.BODY);
-        HttpLoggingInterceptor headerLogging = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-            @Override
-            public void log(String message) {
-                Log.i(getClass().getSimpleName(), message);
-            }
-        });
-        headerLogging.setLevel(HttpLoggingInterceptor.Level.HEADERS);
+        Cache cache = null;
+        try {
+            cache = new Cache(cacheFile, 10 * 1024 * 1024);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        HttpLoggingInterceptor bodyLogging1 = new HttpLoggingInterceptor();
-        bodyLogging1.setLevel(HttpLoggingInterceptor.Level.BODY);
-        HttpLoggingInterceptor headerLogging1 = new HttpLoggingInterceptor();
-        headerLogging1.setLevel(HttpLoggingInterceptor.Level.HEADERS);// The Interceptor is then added to the client
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(new Interceptor() {
                     @Override
@@ -75,7 +59,6 @@ public class ApiModule {
                         Request request;
                         request = original.newBuilder()
                                 .header("Content-Type", "application/json")
-                                .header("Authorization", user.getAuthorization())
                                 .header("Cache-Control", "no-cache")
                                 .removeHeader("Pragma")
                                 .build();
@@ -86,18 +69,17 @@ public class ApiModule {
                     }
                 })
                 .protocols(Arrays.asList(Protocol.HTTP_1_1))
-                .addInterceptor(bodyLogging)
-                .addInterceptor(headerLogging)
-                .addInterceptor(headerLogging1)
-                .addInterceptor(bodyLogging1)
-                .readTimeout(2, TimeUnit.MINUTES)
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS))
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .connectTimeout(120, TimeUnit.SECONDS)
+                .cache(cache)
                 .build();
 
         return new Retrofit.Builder()
                 .baseUrl(url)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
     }
 }

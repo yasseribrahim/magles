@@ -170,6 +170,10 @@ public abstract class BaseFragment extends Fragment {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
     }
 
+    public void unAuthorized() {
+
+    }
+
     protected void showToastShort(String msg) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }

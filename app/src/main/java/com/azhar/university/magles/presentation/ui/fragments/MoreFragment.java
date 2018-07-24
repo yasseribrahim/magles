@@ -26,11 +26,11 @@ import com.azhar.university.magles.domain.communicator.OnLogoutCallback;
 import com.azhar.university.magles.domain.models.MoreItem;
 import com.azhar.university.magles.domain.utils.Utils;
 import com.azhar.university.magles.domain.views.MoreView;
-import com.azhar.university.magles.domain.views.ParseView;
+import com.azhar.university.magles.domain.views.UserView;
 import com.azhar.university.magles.presentation.presenters.more.MorePresenter;
 import com.azhar.university.magles.presentation.presenters.more.MorePresenterImp;
-import com.azhar.university.magles.presentation.presenters.parse.ParsePresenter;
-import com.azhar.university.magles.presentation.presenters.parse.UserPresenterImp;
+import com.azhar.university.magles.presentation.presenters.user.UserPresenter;
+import com.azhar.university.magles.presentation.presenters.user.UserPresenterImp;
 import com.azhar.university.magles.presentation.ui.activities.AccountInfoActivity;
 import com.azhar.university.magles.presentation.ui.adapters.MoreAdapter;
 import com.azhar.university.magles.presentation.ui.custom.CustomDividerItemDecoration;
@@ -53,13 +53,13 @@ import butterknife.OnClick;
  * Activities containing this fragment MUST implement the {@link OnListInteractionListener}
  * interface.
  */
-public class MoreFragment extends BaseFragment implements ParseView, MoreView, OnListInteractionListener<MoreItem> {
+public class MoreFragment extends BaseFragment implements UserView, MoreView, OnListInteractionListener<MoreItem> {
     @BindView(R.id.profile_image)
     ImageView profilePic;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
-    private ParsePresenter parsePresenter;
+    private UserPresenter userPresenter;
     private MorePresenter morePresenter;
     private OnLogoutCallback callback;
     private MoreAdapter adapter;
@@ -90,7 +90,7 @@ public class MoreFragment extends BaseFragment implements ParseView, MoreView, O
 
         ButterKnife.bind(this, view);
 
-        parsePresenter = new UserPresenterImp(this);
+        userPresenter = new UserPresenterImp(this);
         morePresenter = new MorePresenterImp(this);
         items = new ArrayList<>();
         adapter = new MoreAdapter(items, this);
@@ -154,7 +154,7 @@ public class MoreFragment extends BaseFragment implements ParseView, MoreView, O
                             profilePic.setImageBitmap(bitmapSmall);
                             galleryAddPic();
 
-                            parsePresenter.changeProfilePicture(new File(imageFile));
+                            userPresenter.changeProfilePicture(new File(imageFile));
                         } else {
                             showToastShort(getActivity().getString(R.string.message_general_error));
                         }
@@ -180,7 +180,7 @@ public class MoreFragment extends BaseFragment implements ParseView, MoreView, O
                                     }
                                 });
 
-                                parsePresenter.changeProfilePicture(new File(uri.getPath()));
+                                userPresenter.changeProfilePicture(new File(uri.getPath()));
                             } else {
                                 showToastShort(getActivity().getString(R.string.message_profile_image_max_size));
                             }
@@ -261,14 +261,9 @@ public class MoreFragment extends BaseFragment implements ParseView, MoreView, O
                 startActivity(new Intent(getContext(), AccountInfoActivity.class));
                 break;
             case MoreIds.MORE_LOGOUT_ID:
-                parsePresenter.logout();
+                userPresenter.logout();
                 break;
         }
-    }
-
-    @Override
-    public void onRegisterComplete() {
-
     }
 
     @Override
@@ -302,11 +297,6 @@ public class MoreFragment extends BaseFragment implements ParseView, MoreView, O
     }
 
     @Override
-    public void unAuthorized() {
-
-    }
-
-    @Override
     public void onGetMoreItemsComplete(List<MoreItem> items) {
         this.items.clear();
         this.items.addAll(items);
@@ -316,7 +306,7 @@ public class MoreFragment extends BaseFragment implements ParseView, MoreView, O
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        parsePresenter.onDestroy();
+        userPresenter.onDestroy();
         morePresenter.onDestroy();
     }
 }

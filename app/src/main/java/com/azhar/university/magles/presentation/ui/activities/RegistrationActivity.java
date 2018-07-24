@@ -8,9 +8,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
 import com.azhar.university.magles.R;
-import com.azhar.university.magles.domain.views.ParseView;
-import com.azhar.university.magles.presentation.presenters.parse.ParsePresenter;
-import com.azhar.university.magles.presentation.presenters.parse.UserPresenterImp;
+import com.azhar.university.magles.domain.views.UserView;
+import com.azhar.university.magles.presentation.presenters.user.UserPresenter;
+import com.azhar.university.magles.presentation.presenters.user.UserPresenterImp;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,7 +19,7 @@ import butterknife.OnClick;
 /**
  * A login screen that offers login via email/password.
  */
-public class RegistrationActivity extends BaseActivity implements ParseView {
+public class RegistrationActivity extends BaseActivity implements UserView {
     @BindView(R.id.registration_form)
     View registrationFormView;
     @BindView(R.id.full_name)
@@ -31,7 +31,7 @@ public class RegistrationActivity extends BaseActivity implements ParseView {
     @BindView(R.id.confirmation_password)
     EditText confirmationPassword;
 
-    private ParsePresenter presenter;
+    private UserPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,7 +124,7 @@ public class RegistrationActivity extends BaseActivity implements ParseView {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user registration attempt.
-            presenter.register(email, password, name);
+//            presenter.register(email, password, name);
         }
     }
 
@@ -156,11 +156,11 @@ public class RegistrationActivity extends BaseActivity implements ParseView {
         return name.length() > 6;
     }
 
-    @Override
-    public void onRegisterComplete() {
-        startActivity(new Intent(this, LoginActivity.class));
-        finish();
-    }
+//    @Override
+//    public void onRegisterComplete() {
+//        startActivity(new Intent(this, LoginActivity.class));
+//        finish();
+//    }
 
     @Override
     public void onLoginComplete() {

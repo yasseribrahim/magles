@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.azhar.university.magles.R;
 import com.azhar.university.magles.domain.communicator.OnLogoutCallback;
 import com.azhar.university.magles.presentation.ui.fragments.MoreFragment;
-import com.parse.ParseInstallation;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,8 +46,6 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
         ButterKnife.bind(this);
 
         navigation.setOnNavigationItemSelectedListener(this);
-
-        ParseInstallation.getCurrentInstallation().saveInBackground();
 
         setupUI();
     }

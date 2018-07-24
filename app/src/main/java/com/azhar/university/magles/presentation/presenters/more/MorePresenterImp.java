@@ -3,7 +3,7 @@ package com.azhar.university.magles.presentation.presenters.more;
 import android.view.View;
 
 import com.azhar.university.magles.domain.interactors.more.MoreInteractor;
-import com.azhar.university.magles.domain.interactors.more.MoreInteractorImpl;
+import com.azhar.university.magles.domain.interactors.more.MoreInteractorImp;
 import com.azhar.university.magles.domain.models.MoreItem;
 import com.azhar.university.magles.domain.views.MoreView;
 
@@ -19,7 +19,7 @@ public class MorePresenterImp implements MorePresenter, MoreInteractor.MoreCallb
 
     public MorePresenterImp(MoreView view) {
         this.view = view;
-        this.interactor = new MoreInteractorImpl();
+        this.interactor = new MoreInteractorImp();
     }
 
     @Override

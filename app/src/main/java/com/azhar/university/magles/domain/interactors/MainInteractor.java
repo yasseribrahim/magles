@@ -17,5 +17,7 @@ public interface MainInteractor {
         void hideProgress();
 
         void unAuthorized();
+
+        String getErrorMessage(Throwable throwable);
     }
 }

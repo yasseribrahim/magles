@@ -18,8 +18,8 @@ import io.reactivex.ObservableOnSubscribe;
  * Created by Yasser.Ibrahim on 6/12/2018.
  */
 
-public class MoreInteractorImpl extends BaseInteractor implements MoreInteractor {
-    public MoreInteractorImpl() {
+public class MoreInteractorImp extends BaseInteractor implements MoreInteractor {
+    public MoreInteractorImp() {
     }
 
     @Override

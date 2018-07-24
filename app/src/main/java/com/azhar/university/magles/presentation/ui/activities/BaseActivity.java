@@ -1,13 +1,9 @@
 package com.azhar.university.magles.presentation.ui.activities;
 
-import com.azhar.university.magles.R;
-import com.azhar.university.magles.presentation.ui.dialogs.ProgressDialogFragment;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
@@ -15,6 +11,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
+import com.azhar.university.magles.R;
+import com.azhar.university.magles.domain.utils.UserManager;
+import com.azhar.university.magles.presentation.ui.dialogs.ProgressDialogFragment;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLHandshakeException;
+
+import retrofit2.HttpException;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -105,6 +116,46 @@ public abstract class BaseActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    public void showError(String message, View.OnClickListener onClickListener) {
+        showRetrySnackBar(message, onClickListener);
+    }
+
+    public void showConnectionError(View.OnClickListener onClickListener) {
+        showConnectionSnackBar(onClickListener);
+    }
+
+    public void unAuthorized() {
+        UserManager.getInstance().logout();
+        startActivity(new Intent(this, SplashActivity.class));
+        finish();
+    }
+
+    public String getErrorMessage(Throwable throwable) {
+        if (throwable instanceof HttpException) {
+            HttpException exception = (HttpException) throwable;
+            if (exception.response().code() == HttpsURLConnection.HTTP_UNAUTHORIZED) {
+                return getString(R.string.error_no_authorization);
+            } else if (exception.response().code() == HttpsURLConnection.HTTP_BAD_REQUEST ||
+                    exception.response().code() == HttpsURLConnection.HTTP_NOT_FOUND ||
+                    exception.response().code() == HttpsURLConnection.HTTP_UNAVAILABLE ||
+                    exception.response().code() == HttpsURLConnection.HTTP_INTERNAL_ERROR ||
+                    exception.response().code() == HttpsURLConnection.HTTP_BAD_GATEWAY) {
+                return getString(R.string.error_service_unavailable);
+            } else {
+                return getString(R.string.message_error_connection);
+            }
+        } else if (throwable instanceof SocketTimeoutException) {
+            return getString(R.string.error_service_unavailable);
+        } else if (throwable instanceof UnknownHostException) {
+            return getString(R.string.message_error_connection);
+        } else if (throwable instanceof ConnectException) {
+            return getString(R.string.message_error_connection);
+        } else if (throwable instanceof SSLHandshakeException) {
+            return getString(R.string.message_error_connection);
+        }
+        return null;
     }
 
     public void showProgress() {

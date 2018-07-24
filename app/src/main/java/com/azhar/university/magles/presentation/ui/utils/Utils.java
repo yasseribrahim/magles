@@ -4,7 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.azhar.university.magles.UniversityGuideApplication;
+import com.azhar.university.magles.MaglesApplication;
 
 /**
  * Created by Yasser.Ibrahim on 6/28/2018.
@@ -13,9 +13,9 @@ import com.azhar.university.magles.UniversityGuideApplication;
 public class Utils {
 
     public static boolean isConnectingToInternet() {
-        if (UniversityGuideApplication.getApplication().getApplicationContext() != null) {
+        if (MaglesApplication.getApplication().getApplicationContext() != null) {
 
-            ConnectivityManager cm = (ConnectivityManager) UniversityGuideApplication.getApplication().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            ConnectivityManager cm = (ConnectivityManager) MaglesApplication.getApplication().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo info = cm.getActiveNetworkInfo();
             if (info != null && info.isConnected()) {
                 return true;

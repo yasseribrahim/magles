@@ -1,7 +1,9 @@
 package com.azhar.university.magles.domain.utils;
 
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
+import com.azhar.university.magles.MaglesApplication;
 import com.azhar.university.magles.domain.models.Language;
 import com.azhar.university.magles.domain.models.User;
 import com.google.gson.Gson;
@@ -12,53 +14,71 @@ import com.google.gson.reflect.TypeToken;
  */
 
 public class UserManager {
-    private static final String TAG = UserManager.class.getSimpleName();
-    private volatile static User user;
+    private static final UserManager MANAGER = new UserManager();
+    private final SharedPreferences PREFERENCES;
+    private volatile User user;
+
+    private UserManager() {
+        PREFERENCES = PreferenceManager.getDefaultSharedPreferences(MaglesApplication.getApplication());
+        buildUser();
+    }
+
+    public static UserManager getInstance() {
+        return MANAGER;
+    }
 
     /**
      * Returns singleton class instance
      */
-    public static User getCurrentUser(SharedPreferences preferences) {
+    public User getCurrentUser() {
         if (user == null) {
             synchronized (User.class) {
                 if (user == null) {
-                    buildUser(preferences);
+                    buildUser();
                 }
             }
         }
         return user;
     }
 
-    private static void buildUser(SharedPreferences preferences) {
-        if (preferences != null) {
-            String json = preferences.getString(Constants.KEY_USER_LOGGED_OBJECT, null);
+    private void buildUser() {
+        if (PREFERENCES != null) {
+            String json = PREFERENCES.getString(Constants.KEY_USER_LOGGED_OBJECT, null);
             user = new Gson().fromJson(json, new TypeToken<User>() {
             }.getType());
         }
     }
 
-    public static User getUserDefault(SharedPreferences preferences, String username, String password) {
-        User olderUser = getCurrentUser(preferences);
+    public User initializeCurrentUser(String username, String password) {
+        User olderUser = getCurrentUser();
         user = new User(username, password);
         user.setLanguage((olderUser != null) ? olderUser.getLanguage() : Language.getDefaultLanguage());
-        saveUser(preferences, user);
+        saveUser(user);
         return user;
     }
 
-    public static void saveUser(SharedPreferences preferences, User member) {
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(Constants.KEY_USER_LOGGED_OBJECT, new Gson().toJson(member));
+    public void saveUser(User user) {
+        SharedPreferences.Editor editor = PREFERENCES.edit();
+        editor.putString(Constants.KEY_USER_LOGGED_OBJECT, new Gson().toJson(user));
         editor.apply();
-        buildUser(preferences);
+        buildUser();
     }
 
-    public static void logout(SharedPreferences preferences) {
+    public void prepareAndStoreCurrentUser(User user) {
+        user.setPassword(getCurrentUser().getPassword());
+        user.setAuthorization(getCurrentUser().getAuthorization());
+        user.setLanguage(getCurrentUser().getLanguage());
+        user.setLogged(true);
+        saveUser(user);
+    }
+
+    public void logout() {
         user.setLogged(false);
-        saveUser(preferences, user);
+        saveUser(user);
         user = null;
     }
 
-    public static boolean isExistUserLoggedIn(SharedPreferences preferences) {
-        return (getCurrentUser(preferences) != null);
+    public boolean isExistUserLoggedIn() {
+        return (getCurrentUser() != null) && user.isLogged() && user.isEnabled();
     }
 }

@@ -9,9 +9,10 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
 import com.azhar.university.magles.R;
-import com.azhar.university.magles.domain.views.ParseView;
-import com.azhar.university.magles.presentation.presenters.parse.ParsePresenter;
-import com.azhar.university.magles.presentation.presenters.parse.UserPresenterImp;
+import com.azhar.university.magles.domain.utils.UserManager;
+import com.azhar.university.magles.domain.views.UserView;
+import com.azhar.university.magles.presentation.presenters.user.UserPresenter;
+import com.azhar.university.magles.presentation.presenters.user.UserPresenterImp;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,7 +22,7 @@ import butterknife.OnEditorAction;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends BaseActivity implements ParseView {
+public class LoginActivity extends BaseActivity implements UserView {
     @BindView(R.id.login_form)
     View loginFormView;
     @BindView(R.id.email)
@@ -29,7 +30,7 @@ public class LoginActivity extends BaseActivity implements ParseView {
     @BindView(R.id.password)
     EditText password;
 
-    private ParsePresenter presenter;
+    private UserPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +114,8 @@ public class LoginActivity extends BaseActivity implements ParseView {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            presenter.login(email, password);
+            UserManager.getInstance().initializeCurrentUser(email, password);
+            presenter.login();
         }
     }
 
@@ -129,11 +131,6 @@ public class LoginActivity extends BaseActivity implements ParseView {
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
         return password.length() > 4;
-    }
-
-    @Override
-    public void onRegisterComplete() {
-
     }
 
     @Override

@@ -7,28 +7,32 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.azhar.university.magles.R;
-import com.azhar.university.magles.domain.utils.ParseManager;
+import com.azhar.university.magles.domain.utils.UserManager;
+import com.azhar.university.magles.domain.views.UserView;
+import com.azhar.university.magles.presentation.presenters.user.UserPresenter;
+import com.azhar.university.magles.presentation.presenters.user.UserPresenterImp;
 import com.azhar.university.magles.presentation.ui.utils.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends BaseActivity implements UserView {
 
     private static final int SPLASH_DELAY_MILLIS = 2000;
 
     @BindView(R.id.containerView)
     RelativeLayout containerView;
 
+    private UserPresenter presenter;
     private Handler handler;
 
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            if (ParseManager.getInstance().isUserLogin()) {
+            if (UserManager.getInstance().isExistUserLoggedIn()) {
                 startActivity(new Intent(SplashActivity.this, HomeActivity.class));
                 if (Utils.isConnectingToInternet()) {
-                    ParseManager.getInstance().refreshCurrentUser();
+                    presenter.login();
                 }
                 finish();
             } else {
@@ -44,6 +48,7 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
 
+        presenter = new UserPresenterImp(this);
         handler = new Handler();
 
         gotoApp();
@@ -71,5 +76,29 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected View getSnackBarAnchorView() {
         return containerView;
+    }
+
+    @Override
+    public void onLoginComplete() {
+
+    }
+
+    @Override
+    public void onLogoutComplete() {
+
+    }
+
+    @Override
+    public void onEditProfileComplete() {
+
+    }
+
+    @Override
+    public void onChangeProfilePictureComplete() {
+
+    }
+
+    @Override
+    public void unAuthorized() {
     }
 }

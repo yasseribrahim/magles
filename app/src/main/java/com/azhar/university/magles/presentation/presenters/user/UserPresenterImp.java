@@ -1,24 +1,34 @@
-package com.azhar.university.magles.presentation.presenters.parse;
+package com.azhar.university.magles.presentation.presenters.user;
 
 import android.view.View;
 
+import com.azhar.university.magles.MaglesApplication;
+import com.azhar.university.magles.domain.controller.Controller;
 import com.azhar.university.magles.domain.interactors.user.UserInteractor;
-import com.azhar.university.magles.domain.interactors.user.UserInteractorImpl;
-import com.azhar.university.magles.domain.views.ParseView;
+import com.azhar.university.magles.domain.interactors.user.UserInteractorImp;
+import com.azhar.university.magles.domain.views.UserView;
 
 import java.io.File;
+
+import javax.inject.Inject;
+
+import retrofit2.Retrofit;
 
 /**
  * Created by Yasser.Ibrahim on 6/12/2018.
  */
 
-public class UserPresenterImp implements ParsePresenter, UserInteractor.UserCallbackStates {
-    private ParseView view;
+public class UserPresenterImp implements UserPresenter, UserInteractor.UserCallbackStates {
+    @Inject
+    protected Retrofit retrofit;
+
+    private UserView view;
     private UserInteractor interactor;
 
-    public UserPresenterImp(ParseView view) {
+    public UserPresenterImp(UserView view) {
+        MaglesApplication.getComponent().inject(this);
         this.view = view;
-        this.interactor = new UserInteractorImpl(controller, callback);
+        this.interactor = new UserInteractorImp(retrofit.create(Controller.UserController.class), this);
     }
 
     @Override
@@ -43,28 +53,31 @@ public class UserPresenterImp implements ParsePresenter, UserInteractor.UserCall
     }
 
     @Override
-    public void register(String email, String password, String fullName) {
-        interactor.register(email, password, fullName, this);
+    public String getErrorMessage(Throwable throwable) {
+        if (view != null) {
+            view.getErrorMessage(throwable);
+        }
+        return null;
     }
 
     @Override
-    public void login(String email, String password) {
-        interactor.login(email, password, this);
+    public void login() {
+        interactor.login();
     }
 
     @Override
     public void logout() {
-        interactor.logout(this);
+        interactor.logout();
     }
 
     @Override
     public void editProfile(String fullName) {
-        interactor.editProfile(fullName, this);
+        interactor.editProfile(fullName);
     }
 
     @Override
     public void changeProfilePicture(File file) {
-        interactor.changeProfilePicture(file, this);
+        interactor.changeProfilePicture(file);
     }
 
     @Override
@@ -92,13 +105,6 @@ public class UserPresenterImp implements ParsePresenter, UserInteractor.UserCall
     public void unAuthorized() {
         if (view != null) {
             view.unAuthorized();
-        }
-    }
-
-    @Override
-    public void onRegisterComplete() {
-        if (view != null) {
-            view.onRegisterComplete();
         }
     }
 

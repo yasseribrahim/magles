@@ -2,14 +2,17 @@ package com.azhar.university.magles;
 
 import android.app.Application;
 
+import com.azhar.university.magles.domain.modules.ApiModule;
+import com.azhar.university.magles.domain.modules.ApplicationModule;
 import com.azhar.university.magles.domain.modules.PreferencesModule;
-import com.parse.Parse;
+
+import java.io.File;
 
 /**
  * Created by Yasser.Ibrahim on 6/12/2018.
  */
 
-public class UniversityGuideApplication extends Application {
+public class MaglesApplication extends Application {
     private static ApplicationComponent component;
     private static Application application;
 
@@ -27,19 +30,13 @@ public class UniversityGuideApplication extends Application {
 
         application = this;
 
-        Parse.initialize(new Parse.Configuration.Builder(this).
-                applicationId(getString(R.string.back4app_app_id)).
-                clientKey(getString(R.string.back4app_client_key)).
-                server(getString(R.string.back4app_server_url)).
-                build());
-
         buildDagger();
     }
 
     public void buildDagger() {
         component = DaggerApplicationComponent.
                 builder().
-                preferencesModule(new PreferencesModule()).
+                apiModule(new ApiModule(new File(getCacheDir(), "responses"), this, BuildConfig.HOST)).
                 build();
     }
 }

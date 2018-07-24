@@ -16,4 +16,6 @@ public interface BaseView {
     void hideProgress();
 
     void unAuthorized();
+
+    String getErrorMessage(Throwable throwable);
 }
