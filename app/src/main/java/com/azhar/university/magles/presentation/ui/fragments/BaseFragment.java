@@ -27,9 +27,17 @@ import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLHandshakeException;
+
+import retrofit2.adapter.rxjava2.HttpException;
 
 public abstract class BaseFragment extends Fragment {
     private AppCompatActivity activity;
@@ -176,5 +184,31 @@ public abstract class BaseFragment extends Fragment {
 
     protected void showToastShort(String msg) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public String getErrorMessage(Throwable throwable) {
+        if (throwable instanceof HttpException) {
+            HttpException exception = (HttpException) throwable;
+            if (exception.response().code() == HttpsURLConnection.HTTP_UNAUTHORIZED) {
+                return getString(R.string.error_no_authorization);
+            } else if (exception.response().code() == HttpsURLConnection.HTTP_BAD_REQUEST ||
+                    exception.response().code() == HttpsURLConnection.HTTP_NOT_FOUND ||
+                    exception.response().code() == HttpsURLConnection.HTTP_UNAVAILABLE ||
+                    exception.response().code() == HttpsURLConnection.HTTP_INTERNAL_ERROR ||
+                    exception.response().code() == HttpsURLConnection.HTTP_BAD_GATEWAY) {
+                return getString(R.string.error_service_unavailable);
+            } else {
+                return getString(R.string.message_error_connection);
+            }
+        } else if (throwable instanceof SocketTimeoutException) {
+            return getString(R.string.error_service_unavailable);
+        } else if (throwable instanceof UnknownHostException) {
+            return getString(R.string.message_error_connection);
+        } else if (throwable instanceof ConnectException) {
+            return getString(R.string.message_error_connection);
+        } else if (throwable instanceof SSLHandshakeException) {
+            return getString(R.string.message_error_connection);
+        }
+        return null;
     }
 }

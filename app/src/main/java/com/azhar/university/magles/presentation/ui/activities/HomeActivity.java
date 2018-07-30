@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.azhar.university.magles.R;
 import com.azhar.university.magles.domain.communicator.OnLogoutCallback;
 import com.azhar.university.magles.presentation.ui.fragments.MoreFragment;
+import com.azhar.university.magles.presentation.ui.fragments.OrdersFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,7 +64,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.navigation_home:
-
+                replace(OrdersFragment.newInstance(), R.string.title_my_orders);
                 return true;
             case R.id.navigation_dashboard:
 
@@ -89,7 +90,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
     @Override
     public void onLogoutCallback() {
-        startActivity(new Intent(this, LoginActivity.class));
+        startActivity(new Intent(this, SplashActivity.class));
         finish();
     }
 

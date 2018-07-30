@@ -77,6 +77,14 @@ public class MorePresenterImp implements MorePresenter, MoreInteractor.MoreCallb
     }
 
     @Override
+    public String getErrorMessage(Throwable throwable) {
+        if (view != null) {
+            view.getErrorMessage(throwable);
+        }
+        return null;
+    }
+
+    @Override
     public void onGetMoreItemsComplete(List<MoreItem> items) {
         if (view != null) {
             view.onGetMoreItemsComplete(items);

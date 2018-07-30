@@ -44,7 +44,7 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.ViewHolder> {
             public void onClick(View v) {
                 if (null != listener) {
                     // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
+                    // fragment is attached to one) that an order has been selected.
                     listener.onListInteraction(holder.item);
                 }
             }

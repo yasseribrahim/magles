@@ -4,7 +4,9 @@
     <modules>
       <module fileurl="file://H:\Projects\magles\AzharUniversityGuide.iml" filepath="H:\Projects\magles\AzharUniversityGuide.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://H:\Projects\magles\guide.iml" filepath="H:\Projects\magles\guide.iml" />
+      <module fileurl="file://$PROJECT_DIR$/magles.iml" filepath="$PROJECT_DIR$/magles.iml" />
       <module fileurl="file://$PROJECT_DIR$/magles.iml" filepath="$PROJECT_DIR$/magles.iml" />
     </modules>
   </component>

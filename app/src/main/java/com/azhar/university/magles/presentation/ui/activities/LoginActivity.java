@@ -166,7 +166,12 @@ public class LoginActivity extends BaseActivity implements UserView {
 
     @Override
     public void unAuthorized() {
-
+        showRetrySnackBar(getString(R.string.error_invalid_username_or_password), new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.login();
+            }
+        });
     }
 }
 

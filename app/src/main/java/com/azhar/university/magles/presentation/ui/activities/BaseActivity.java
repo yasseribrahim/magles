@@ -25,7 +25,7 @@ import java.net.UnknownHostException;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLHandshakeException;
 
-import retrofit2.HttpException;
+import retrofit2.adapter.rxjava2.HttpException;
 
 public abstract class BaseActivity extends AppCompatActivity {
 

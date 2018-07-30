@@ -3,6 +3,7 @@ package com.azhar.university.magles;
 import com.azhar.university.magles.domain.modules.ApiModule;
 import com.azhar.university.magles.domain.modules.ApplicationModule;
 import com.azhar.university.magles.domain.modules.PreferencesModule;
+import com.azhar.university.magles.presentation.presenters.order.OrderPresenterImp;
 import com.azhar.university.magles.presentation.presenters.user.UserPresenterImp;
 
 import javax.inject.Singleton;
@@ -17,4 +18,6 @@ import dagger.Component;
 @Component(modules = {ApplicationModule.class, ApiModule.class, PreferencesModule.class})
 public interface ApplicationComponent {
     void inject(UserPresenterImp presenter);
+
+    void inject(OrderPresenterImp presenter);
 }

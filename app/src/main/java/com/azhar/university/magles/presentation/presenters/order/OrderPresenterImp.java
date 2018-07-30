@@ -1,14 +1,15 @@
-package com.azhar.university.magles.presentation.presenters.user;
+package com.azhar.university.magles.presentation.presenters.order;
 
 import android.view.View;
 
 import com.azhar.university.magles.MaglesApplication;
 import com.azhar.university.magles.domain.controller.Controller;
-import com.azhar.university.magles.domain.interactors.user.UserInteractor;
-import com.azhar.university.magles.domain.interactors.user.UserInteractorImp;
-import com.azhar.university.magles.domain.views.UserView;
+import com.azhar.university.magles.domain.interactors.order.OrderInteractor;
+import com.azhar.university.magles.domain.interactors.order.OrderInteractorImp;
+import com.azhar.university.magles.domain.models.Order;
+import com.azhar.university.magles.domain.views.OrderView;
 
-import java.io.File;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -18,17 +19,17 @@ import retrofit2.Retrofit;
  * Created by Yasser.Ibrahim on 6/12/2018.
  */
 
-public class UserPresenterImp implements UserPresenter, UserInteractor.UserCallbackStates {
+public class OrderPresenterImp implements OrderPresenter, OrderInteractor.OrderCallbackStates {
     @Inject
     protected Retrofit retrofit;
 
-    private UserView view;
-    private UserInteractor interactor;
+    private OrderView view;
+    private OrderInteractor interactor;
 
-    public UserPresenterImp(UserView view) {
+    public OrderPresenterImp(OrderView view) {
         MaglesApplication.getComponent().inject(this);
         this.view = view;
-        this.interactor = new UserInteractorImp(retrofit.create(Controller.UserController.class), this);
+        this.interactor = new OrderInteractorImp(retrofit.create(Controller.OrderController.class), this);
     }
 
     @Override
@@ -61,23 +62,23 @@ public class UserPresenterImp implements UserPresenter, UserInteractor.UserCallb
     }
 
     @Override
-    public void login() {
-        interactor.login();
+    public void getOrders(long ownerId) {
+        interactor.getOrders(ownerId);
     }
 
     @Override
-    public void logout() {
-        interactor.logout();
+    public void list(long departmentId) {
+        interactor.list(departmentId);
     }
 
     @Override
-    public void editProfile(String fullName) {
-        interactor.editProfile(fullName);
+    public void list(long departmentId, long statusId) {
+        interactor.list(departmentId, statusId);
     }
 
     @Override
-    public void changeProfilePicture(File file) {
-        interactor.changeProfilePicture(file);
+    public void details(long orderId) {
+        interactor.details(orderId);
     }
 
     @Override
@@ -109,30 +110,16 @@ public class UserPresenterImp implements UserPresenter, UserInteractor.UserCallb
     }
 
     @Override
-    public void onLoginComplete() {
+    public void onListComplete(List<Order> orders) {
         if (view != null) {
-            view.onLoginComplete();
+            view.onListComplete(orders);
         }
     }
 
     @Override
-    public void onLogoutComplete() {
+    public void onGetDetailsComplete(Order order) {
         if (view != null) {
-            view.onLogoutComplete();
-        }
-    }
-
-    @Override
-    public void onEditProfileComplete() {
-        if (view != null) {
-            view.onEditProfileComplete();
-        }
-    }
-
-    @Override
-    public void onChangeProfilePictureComplete() {
-        if (view != null) {
-            view.onChangeProfilePictureComplete();
+            view.onGetDetailsComplete(order);
         }
     }
 }

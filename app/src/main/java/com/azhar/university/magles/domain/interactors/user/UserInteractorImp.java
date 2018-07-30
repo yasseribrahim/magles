@@ -11,6 +11,7 @@ import java.io.File;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import retrofit2.HttpException;
 
@@ -37,6 +38,7 @@ public class UserInteractorImp extends BaseInteractor implements UserInteractor 
     @Override
     public void logout() {
         callback.showProgress();
+        prepare(Observable.just(Boolean.TRUE), new LogoutObserver(callback));
     }
 
     @Override
@@ -69,16 +71,48 @@ public class UserInteractorImp extends BaseInteractor implements UserInteractor 
 
         @Override
         public void onError(Throwable e) {
-            super.onError(e);
-            if (e instanceof HttpException) {
+            super.onError(e);if (e instanceof HttpException) {
                 if (((HttpException) e).code() == HttpsURLConnection.HTTP_UNAUTHORIZED) {
                     callback.unAuthorized();
+                    return;
                 }
             }
-            callback.failure(e.getMessage(), new View.OnClickListener() {
+            String message = callback.getErrorMessage(e);
+            callback.failure(message != null ? message : e.getMessage(), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     login();
+                }
+            });
+        }
+    }
+
+    private final class LogoutObserver extends BaseObserver<Boolean> {
+
+        public LogoutObserver(CallbackStates callback) {
+            super(callback);
+        }
+
+        @Override
+        public void onNext(Boolean result) {
+            UserManager.getInstance().logout();
+            callback.onLogoutComplete();
+            super.onNext(result);
+        }
+
+        @Override
+        public void onComplete() {
+            super.onComplete();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            super.onError(e);
+            String message = callback.getErrorMessage(e);
+            callback.failure(message != null ? message : e.getMessage(), new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    logout();
                 }
             });
         }

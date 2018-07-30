@@ -15,8 +15,8 @@ public class Utils {
     public static boolean isConnectingToInternet() {
         if (MaglesApplication.getApplication().getApplicationContext() != null) {
 
-            ConnectivityManager cm = (ConnectivityManager) MaglesApplication.getApplication().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo info = cm.getActiveNetworkInfo();
+            ConnectivityManager manager = (ConnectivityManager) MaglesApplication.getApplication().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo info = manager.getActiveNetworkInfo();
             if (info != null && info.isConnected()) {
                 return true;
             } else {
