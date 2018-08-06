@@ -10,6 +10,8 @@
     <dimen name="dimens_3dp">3dp</dimen>
     <dimen name="dimens_15dp">15dp</dimen>
 
+    <dimen name="dimens_50dp">50dp</dimen>
+
     <dimen name="dimens_150dp">150dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>

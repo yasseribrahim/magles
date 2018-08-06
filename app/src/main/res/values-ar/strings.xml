@@ -18,24 +18,24 @@
 
     <string name="menu_action_done">Done</string>
 
-    <string name="label_retry">Retry</string>
+    <string name="label_retry">أعد المحاولة</string>
 
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="title_more">More</string>
-    <string name="title_my_orders">My Orders</string>
-    <string name="title_edit_profile">Edit Profile</string>
+    <string name="title_home">الرئيسية</string>
+    <string name="title_dashboard">الوحة</string>
+    <string name="title_notifications">إخطارات</string>
+    <string name="title_more">المزيد</string>
+    <string name="title_my_orders">طلباتى</string>
+    <string name="title_edit_profile">تعديل بياناتى</string>
 
-    <string name="more_log_out">Logout</string>
-    <string name="more_edit_profile">Edit Profile</string>
+    <string name="more_log_out">تسجيل الخروج</string>
+    <string name="more_edit_profile">تعديل بياناتى</string>
 
-    <string name="dialog_msg_loading">Loading...</string>
+    <string name="dialog_msg_loading">تحميل</string>
 
-    <string name="empty_orders">There are no Orders added yet</string>
+    <string name="empty_orders">لاتوجد طلبات مضافة حتى الان</string>
 
-    <string name="message_general_error">Error happened! please, try again</string>
-    <string name="message_error_connection">Please, check your connection!</string>
+    <string name="message_general_error">حدث خطاء! برجاء المحاولة لاحقا</string>
+    <string name="message_error_connection">من فضلك ، تحقق من اتصالك بالانترنت!</string>
     <string name="message_edit_profile_complete">Edit Profile Complete Success</string>
     <string name="message_exit">Please click BACK again to exit</string>
     <string name="message_profile_image_max_size">Image max size is 2 MB!</string>

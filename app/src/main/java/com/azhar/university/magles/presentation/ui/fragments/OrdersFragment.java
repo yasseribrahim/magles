@@ -1,13 +1,17 @@
 package com.azhar.university.magles.presentation.ui.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.azhar.university.magles.R;
+import com.azhar.university.magles.domain.communicator.OnAttachedHomeFragmentsCallback;
 import com.azhar.university.magles.domain.communicator.OnListInteractionListener;
 import com.azhar.university.magles.domain.models.Order;
 import com.azhar.university.magles.domain.models.User;
@@ -33,6 +37,10 @@ import butterknife.ButterKnife;
 public class OrdersFragment extends BaseFragment implements OrderView {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+    @BindView(R.id.refresh_layout)
+    SwipeRefreshLayout refreshLayout;
+    @BindView(R.id.empty)
+    TextView empty;
 
     private OrderPresenter presenter;
     private OrdersAdapter adapter;
@@ -59,7 +67,7 @@ public class OrdersFragment extends BaseFragment implements OrderView {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_more, container, false);
+        View view = inflater.inflate(R.layout.fragment_orders, container, false);
 
         ButterKnife.bind(this, view);
 
@@ -72,10 +80,40 @@ public class OrdersFragment extends BaseFragment implements OrderView {
         recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setAdapter(adapter);
 
+        refreshLayout.setColorSchemeResources(R.color.refreshColor1, R.color.refreshColor2,
+                R.color.refreshColor3, R.color.refreshColor4);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                load();
+            }
+        });
+
+        load();
+        return view;
+    }
+
+    private void load() {
         User user = UserManager.getInstance().getCurrentUser();
         presenter.getOrders(user.getId());
+    }
 
-        return view;
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnAttachedHomeFragmentsCallback) {
+            ((OnAttachedHomeFragmentsCallback) context).onFragmentAttachedOrders(this);
+        }
+    }
+
+    @Override
+    public void showProgress() {
+        refreshLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void hideProgress() {
+        refreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -98,6 +136,11 @@ public class OrdersFragment extends BaseFragment implements OrderView {
         this.orders.clear();
         this.orders.addAll(orders);
         adapter.notifyDataSetChanged();
+        if (orders.isEmpty()) {
+            empty.setVisibility(View.VISIBLE);
+        } else {
+            empty.setVisibility(View.GONE);
+        }
     }
 
     @Override

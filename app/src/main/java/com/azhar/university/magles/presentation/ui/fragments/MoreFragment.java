@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.azhar.university.magles.R;
+import com.azhar.university.magles.domain.communicator.OnAttachedHomeFragmentsCallback;
 import com.azhar.university.magles.domain.communicator.OnListInteractionListener;
 import com.azhar.university.magles.domain.communicator.OnLogoutCallback;
 import com.azhar.university.magles.domain.models.MoreItem;
@@ -246,6 +247,9 @@ public class MoreFragment extends BaseFragment implements UserView, MoreView, On
     public void onAttach(Context context) {
         super.onAttach(context);
         callback = (OnLogoutCallback) context;
+        if (context instanceof OnAttachedHomeFragmentsCallback) {
+            ((OnAttachedHomeFragmentsCallback) context).onFragmentAttachedMore(this);
+        }
     }
 
     @Override

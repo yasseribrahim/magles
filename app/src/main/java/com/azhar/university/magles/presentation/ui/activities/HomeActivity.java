@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.azhar.university.magles.R;
+import com.azhar.university.magles.domain.communicator.OnAttachedHomeFragmentsCallback;
 import com.azhar.university.magles.domain.communicator.OnLogoutCallback;
 import com.azhar.university.magles.presentation.ui.fragments.MoreFragment;
 import com.azhar.university.magles.presentation.ui.fragments.OrdersFragment;
@@ -22,13 +23,16 @@ import com.azhar.university.magles.presentation.ui.fragments.OrdersFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HomeActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener, OnLogoutCallback {
+public class HomeActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener, OnLogoutCallback, OnAttachedHomeFragmentsCallback {
     @BindView(R.id.main_container)
     ConstraintLayout container;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.navigation)
     BottomNavigationView navigation;
+
+    private OrdersFragment ordersFragment;
+    private MoreFragment moreFragment;
 
     private boolean doubleBackToExitPressedOnce;
     private Handler handler = new Handler();
@@ -46,9 +50,9 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
         ButterKnife.bind(this);
 
-        navigation.setOnNavigationItemSelectedListener(this);
-
         setupUI();
+
+        navigation.setOnNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -58,13 +62,16 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
     private void setupUI() {
         setupSupportedActionBar(toolbar);
+
+        ordersFragment = OrdersFragment.newInstance();
+        moreFragment = MoreFragment.newInstance();
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.navigation_home:
-                replace(OrdersFragment.newInstance(), R.string.title_my_orders);
+                replace(ordersFragment, R.string.title_my_orders);
                 return true;
             case R.id.navigation_dashboard:
 
@@ -73,10 +80,20 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
                 return true;
             case R.id.navigation_more:
-                replace(MoreFragment.newInstance(), R.string.title_more);
+                replace(moreFragment, R.string.title_more);
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public void onFragmentAttachedOrders(OrdersFragment ordersFragment) {
+        this.ordersFragment = ordersFragment;
+    }
+
+    @Override
+    public void onFragmentAttachedMore(MoreFragment moreFragment) {
+        this.moreFragment = moreFragment;
     }
 
     private void replace(Fragment fragment, int titleId) {
