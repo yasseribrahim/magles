@@ -1,22 +1,28 @@
 <resources>
-    <string name="app_name">Magles</string>
+    <string name="app_name">المجلس</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_full_name">Full Name</string>
-    <string name="prompt_password">Password</string>
-    <string name="prompt_confirmation_password">Confirm Password</string>
-    <string name="action_sign_in">Sign-In</string>
+    <string name="prompt_email">البريد الاكترونى</string>
+    <string name="prompt_full_name">الاسم</string>
+    <string name="prompt_password">كلمة المررو</string>
+    <string name="prompt_confirmation_password">تأكيد كلمة المررو</string>
+    <string name="prompt_phone">التليفون</string>
+    <string name="prompt_address">العنوان</string>
+    <string name="prompt_national_id">الرقم القومى</string>
+    <string name="prompt_birth_date">تايخ الميلاد</string>
+    <string name="prompt_note">ملاحظات</string>
+    <string name="prompt_department">القسم</string>
+    <string name="action_sign_in">تسجيل الدخول</string>
     <string name="action_register">Register</string>
     <string name="action_join_now">Join Now</string>
-    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_sign_in_short">تسجيل الدخول</string>
     <string name="error_invalid_full_name">This full name is too short</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is incorrect</string>
     <string name="error_invalid_confirmation_password">Your password and confirmation password do not match</string>
     <string name="error_field_required">This field is required</string>
 
-    <string name="menu_action_done">Done</string>
+    <string name="menu_action_done">تم</string>
 
     <string name="label_retry">أعد المحاولة</string>
 
@@ -39,8 +45,8 @@
     <string name="message_edit_profile_complete">Edit Profile Complete Success</string>
     <string name="message_exit">Please click BACK again to exit</string>
     <string name="message_profile_image_max_size">Image max size is 2 MB!</string>
-    <string name="error_invalid_username_or_password">The username or the password is incorrect, please try again</string>
-    <string name="error_no_authorization">Unauthorized: Access is denied</string>
+    <string name="error_invalid_username_or_password">اسم المستخدم أو كلمة المرور غير صحيحين ، يرجى المحاولة مرة أخرى</string>
+    <string name="error_no_authorization">غير مصرح به: تم رفض الوصول</string>
     <string name="error_service_unavailable">Service is unavailable now , please try again later</string>
 
     <string name="title_dialog_profile_image">Profile picture</string>

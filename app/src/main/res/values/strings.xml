@@ -6,6 +6,12 @@
     <string name="prompt_full_name">Full Name</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_confirmation_password">Confirm Password</string>
+    <string name="prompt_phone">Phone</string>
+    <string name="prompt_address">Address</string>
+    <string name="prompt_national_id">National ID</string>
+    <string name="prompt_birth_date">Birth Date</string>
+    <string name="prompt_note">Note</string>
+    <string name="prompt_department">Department</string>
     <string name="action_sign_in">Sign-In</string>
     <string name="action_register">Register</string>
     <string name="action_join_now">Join Now</string>

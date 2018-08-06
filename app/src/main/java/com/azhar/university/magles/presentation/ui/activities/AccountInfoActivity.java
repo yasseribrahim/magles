@@ -16,6 +16,7 @@ import com.azhar.university.magles.domain.utils.UserManager;
 import com.azhar.university.magles.domain.views.UserView;
 import com.azhar.university.magles.presentation.presenters.user.UserPresenter;
 import com.azhar.university.magles.presentation.presenters.user.UserPresenterImp;
+import com.azhar.university.magles.presentation.ui.utils.DatesUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +33,19 @@ public class AccountInfoActivity extends BaseActivity implements UserView {
     AutoCompleteTextView name;
     @BindView(R.id.email)
     AutoCompleteTextView email;
+    @BindView(R.id.phone)
+    AutoCompleteTextView phone;
+    @BindView(R.id.address)
+    AutoCompleteTextView address;
+    @BindView(R.id.national_id)
+    AutoCompleteTextView nationalId;
+    @BindView(R.id.birth_date)
+    AutoCompleteTextView birthDate;
+    @BindView(R.id.note)
+    AutoCompleteTextView note;
+    @BindView(R.id.department)
+    AutoCompleteTextView department;
+
 
     private UserPresenter presenter;
 
@@ -60,6 +74,12 @@ public class AccountInfoActivity extends BaseActivity implements UserView {
         User user = UserManager.getInstance().getCurrentUser();
         name.setText(user.getName());
         email.setText(user.getEmail());
+        phone.setText(user.getPhone());
+        address.setText(user.getAddress());
+        nationalId.setText(user.getNationalId());
+        birthDate.setText(DatesUtils.formatDateOnly(user.getBirthDate()));
+        department.setText(user.getDepartment().getName());
+        note.setText(user.getNote());
     }
 
     @Override

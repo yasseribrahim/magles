@@ -65,6 +65,7 @@ public class HomeActivity extends BaseActivity implements BottomNavigationView.O
 
         ordersFragment = OrdersFragment.newInstance();
         moreFragment = MoreFragment.newInstance();
+        replace(ordersFragment, R.string.title_my_orders);
     }
 
     @Override

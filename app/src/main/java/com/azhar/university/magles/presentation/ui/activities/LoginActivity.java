@@ -62,10 +62,10 @@ public class LoginActivity extends BaseActivity implements UserView {
         return false;
     }
 
-    @OnClick(R.id.join_now_button)
-    public void onJoinNowClicked() {
-        joinNow();
-    }
+//    @OnClick(R.id.join_now_button)
+//    public void onJoinNowClicked() {
+//        joinNow();
+//    }
 
     @OnClick(R.id.sign_in_button)
     public void onSignInClicked() {
@@ -119,9 +119,9 @@ public class LoginActivity extends BaseActivity implements UserView {
         }
     }
 
-    private void joinNow() {
-        startActivity(new Intent(this, RegistrationActivity.class));
-    }
+//    private void joinNow() {
+//        startActivity(new Intent(this, RegistrationActivity.class));
+//    }
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
