@@ -121,6 +121,11 @@ public class AccountInfoActivity extends BaseActivity implements UserView {
 
         // Store values at the time of the account_info attempt.
         String name = this.name.getText().toString();
+        String phone = this.phone.getText().toString();
+        String address = this.address.getText().toString();
+        String nationalId = this.nationalId.getText().toString();
+//        String name = this.birthDate.setText(DatesUtils.formatDateOnly(user.getBirthDate()));
+        String note = this.note.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -143,7 +148,14 @@ public class AccountInfoActivity extends BaseActivity implements UserView {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user account_info attempt.
-            presenter.editProfile(name);
+
+            User user = UserManager.getInstance().getCurrentUser();
+            user.setName(name);
+            user.setPhone(phone);
+            user.setAddress(address);
+            user.setNationalId(nationalId);
+            user.setNote(note);
+            presenter.editProfile(user);
         }
     }
 

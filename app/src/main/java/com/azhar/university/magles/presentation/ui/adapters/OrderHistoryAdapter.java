@@ -8,8 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.azhar.university.magles.R;
-import com.azhar.university.magles.domain.communicator.OnListInteractionListener;
-import com.azhar.university.magles.domain.models.Order;
+import com.azhar.university.magles.domain.models.OrderHistory;
 import com.azhar.university.magles.presentation.ui.utils.DatesUtils;
 import com.azhar.university.magles.presentation.ui.utils.UIUtils;
 
@@ -18,51 +17,48 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder> {
-    private final List<Order> orders;
-    private final OnListInteractionListener<Order> listener;
+public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapter.ViewHolder> {
+    private final List<OrderHistory> histories;
 
-    public OrdersAdapter(List<Order> orders, OnListInteractionListener<Order> listener) {
-        this.orders = orders;
-        this.listener = listener;
+    public OrderHistoryAdapter(List<OrderHistory> histories) {
+        this.histories = histories;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_order, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_order_history, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final Order order = orders.get(position);
-        holder.order = order;
-        int statusColor = UIUtils.getStatusColor(holder.order.getCurrentStatus().getId());
-        holder.title.setText(holder.order.getTitle());
-        holder.date.setText(DatesUtils.formatDateOnly(holder.order.getDate()));
-        holder.createdBy.setText(holder.order.getCreatedBy().getName());
-        holder.status.setText(holder.order.getCurrentStatus().getStatus());
+        holder.history = histories.get(position);
+        int statusColor = UIUtils.getStatusColor(holder.history.getStatus().getId());
+        holder.note.setText(holder.history.getNote());
+        holder.date.setText(DatesUtils.formatDateOnly(holder.history.getCreationDate()));
+        holder.createdBy.setText(holder.history.getCreatedBy().getName());
+        holder.status.setText(holder.history.getStatus().getStatus());
         holder.status.setTextColor(statusColor);
         holder.indicator.setBackgroundColor(statusColor);
 
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onListInteraction(order);
+
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return orders.size();
+        return histories.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.indicator)
         ImageView indicator;
-        @BindView(R.id.title)
-        TextView title;
+        @BindView(R.id.note)
+        TextView note;
         @BindView(R.id.date)
         TextView date;
         @BindView(R.id.status)
@@ -71,7 +67,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
         TextView createdBy;
 
         View view;
-        Order order;
+        OrderHistory history;
 
         public ViewHolder(View view) {
             super(view);

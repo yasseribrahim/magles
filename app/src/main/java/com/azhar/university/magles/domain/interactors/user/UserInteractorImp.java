@@ -7,12 +7,9 @@ import com.azhar.university.magles.domain.interactors.BaseInteractor;
 import com.azhar.university.magles.domain.models.User;
 import com.azhar.university.magles.domain.utils.UserManager;
 
-import java.io.File;
-
 import javax.net.ssl.HttpsURLConnection;
 
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
 import retrofit2.HttpException;
 
 /**
@@ -42,13 +39,15 @@ public class UserInteractorImp extends BaseInteractor implements UserInteractor 
     }
 
     @Override
-    public void editProfile(String fullName) {
+    public void editProfile(final User user) {
         callback.showProgress();
-    }
-
-    @Override
-    public void changeProfilePicture(final File file) {
-        callback.showProgress();
+        User oldUser = UserManager.getInstance().getCurrentUser();
+        prepare(controller.edit(oldUser.getAuthorization(), user), new EditProfileObserver(callback, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editProfile(user);
+            }
+        }));
     }
 
     private final class LoginObserver extends BaseObserver<User> {
@@ -71,7 +70,8 @@ public class UserInteractorImp extends BaseInteractor implements UserInteractor 
 
         @Override
         public void onError(Throwable e) {
-            super.onError(e);if (e instanceof HttpException) {
+            super.onError(e);
+            if (e instanceof HttpException) {
                 if (((HttpException) e).code() == HttpsURLConnection.HTTP_UNAUTHORIZED) {
                     callback.unAuthorized();
                     return;
@@ -115,6 +115,40 @@ public class UserInteractorImp extends BaseInteractor implements UserInteractor 
                     logout();
                 }
             });
+        }
+    }
+
+    private final class EditProfileObserver extends BaseObserver<User> {
+        private View.OnClickListener listener;
+
+        public EditProfileObserver(CallbackStates callback, View.OnClickListener listener) {
+            super(callback);
+            this.listener = listener;
+        }
+
+        @Override
+        public void onNext(User user) {
+            UserManager.getInstance().prepareAndStoreCurrentUser(user);
+            callback.onEditProfileComplete();
+            super.onNext(user);
+        }
+
+        @Override
+        public void onComplete() {
+            super.onComplete();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            super.onError(e);
+            if (e instanceof HttpException) {
+                if (((HttpException) e).code() == HttpsURLConnection.HTTP_UNAUTHORIZED) {
+                    callback.unAuthorized();
+                    return;
+                }
+            }
+            String message = callback.getErrorMessage(e);
+            callback.failure(message != null ? message : e.getMessage(), listener);
         }
     }
 }

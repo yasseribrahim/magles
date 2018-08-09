@@ -6,9 +6,8 @@ import com.azhar.university.magles.MaglesApplication;
 import com.azhar.university.magles.domain.controller.Controller;
 import com.azhar.university.magles.domain.interactors.user.UserInteractor;
 import com.azhar.university.magles.domain.interactors.user.UserInteractorImp;
+import com.azhar.university.magles.domain.models.User;
 import com.azhar.university.magles.domain.views.UserView;
-
-import java.io.File;
 
 import javax.inject.Inject;
 
@@ -71,13 +70,8 @@ public class UserPresenterImp implements UserPresenter, UserInteractor.UserCallb
     }
 
     @Override
-    public void editProfile(String fullName) {
-        interactor.editProfile(fullName);
-    }
-
-    @Override
-    public void changeProfilePicture(File file) {
-        interactor.changeProfilePicture(file);
+    public void editProfile(User user) {
+        interactor.editProfile(user);
     }
 
     @Override
@@ -126,13 +120,6 @@ public class UserPresenterImp implements UserPresenter, UserInteractor.UserCallb
     public void onEditProfileComplete() {
         if (view != null) {
             view.onEditProfileComplete();
-        }
-    }
-
-    @Override
-    public void onChangeProfilePictureComplete() {
-        if (view != null) {
-            view.onChangeProfilePictureComplete();
         }
     }
 }

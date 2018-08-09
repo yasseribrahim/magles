@@ -1,6 +1,7 @@
 package com.azhar.university.magles.presentation.ui.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,10 +16,12 @@ import com.azhar.university.magles.domain.communicator.OnAttachedHomeFragmentsCa
 import com.azhar.university.magles.domain.communicator.OnListInteractionListener;
 import com.azhar.university.magles.domain.models.Order;
 import com.azhar.university.magles.domain.models.User;
+import com.azhar.university.magles.domain.utils.Constants;
 import com.azhar.university.magles.domain.utils.UserManager;
 import com.azhar.university.magles.domain.views.OrderView;
 import com.azhar.university.magles.presentation.presenters.order.OrderPresenter;
 import com.azhar.university.magles.presentation.presenters.order.OrderPresenterImp;
+import com.azhar.university.magles.presentation.ui.activities.OrderDetailsActivity;
 import com.azhar.university.magles.presentation.ui.adapters.OrdersAdapter;
 import com.azhar.university.magles.presentation.ui.custom.CustomDividerItemDecoration;
 
@@ -34,7 +37,7 @@ import butterknife.ButterKnife;
  * Activities containing this fragment MUST implement the {@link OnListInteractionListener}
  * interface.
  */
-public class OrdersFragment extends BaseFragment implements OrderView {
+public class OrdersFragment extends BaseFragment implements OrderView, OnListInteractionListener<Order> {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.refresh_layout)
@@ -73,7 +76,7 @@ public class OrdersFragment extends BaseFragment implements OrderView {
 
         presenter = new OrderPresenterImp(this);
         orders = new ArrayList<>();
-        adapter = new OrdersAdapter(orders);
+        adapter = new OrdersAdapter(orders, this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         CustomDividerItemDecoration dividerItemDecoration = new CustomDividerItemDecoration(getContext(), R.dimen.divider_mid);
@@ -152,5 +155,12 @@ public class OrdersFragment extends BaseFragment implements OrderView {
     public void onDestroyView() {
         super.onDestroyView();
         presenter.onDestroy();
+    }
+
+    @Override
+    public void onListInteraction(Order item) {
+        Intent intent = new Intent(getContext(), OrderDetailsActivity.class);
+        intent.putExtra(Constants.KEY_ORDER_ID, item.getId());
+        startActivity(intent);
     }
 }

@@ -7,6 +7,8 @@ import android.util.Log;
 
 import com.azhar.university.magles.domain.models.User;
 import com.azhar.university.magles.domain.utils.UserManager;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -75,10 +77,14 @@ public class ApiModule {
                 .cache(cache)
                 .build();
 
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+                .create();
+
         return new Retrofit.Builder()
                 .baseUrl(url)
                 .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
     }

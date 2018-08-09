@@ -40,6 +40,14 @@
 
     <string name="empty_orders">There are no Orders added yet</string>
 
+    <string name="order_owner">Owner</string>
+    <string name="order_title">Title</string>
+    <string name="order_date">Date</string>
+    <string name="order_current_status">Current Status</string>
+    <string name="order_content">Content</string>
+    <string name="order_note">Note</string>
+    <string name="order_history">History</string>
+
     <string name="message_general_error">Error happened! please, try again</string>
     <string name="message_error_connection">Please, check your connection!</string>
     <string name="message_edit_profile_complete">Edit Profile Complete Success</string>

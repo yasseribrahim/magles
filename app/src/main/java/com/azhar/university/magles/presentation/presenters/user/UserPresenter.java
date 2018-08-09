@@ -1,5 +1,6 @@
 package com.azhar.university.magles.presentation.presenters.user;
 
+import com.azhar.university.magles.domain.models.User;
 import com.azhar.university.magles.presentation.presenters.MainPresenter;
 
 import java.io.File;
@@ -13,7 +14,5 @@ public interface UserPresenter extends MainPresenter {
 
     void logout();
 
-    void editProfile(String fullName);
-
-    void changeProfilePicture(File file);
+    void editProfile(User user);
 }

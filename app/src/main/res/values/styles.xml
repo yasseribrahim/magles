@@ -26,7 +26,7 @@
     </style>
 
     <style name="customActionBar" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Menu">
-        <item name="android:textSize">@dimen/normal_text_size</item>
+        <item name="android:textSize">@dimen/sub_header_text_size</item>
     </style>
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

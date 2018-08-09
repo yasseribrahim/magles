@@ -6,10 +6,13 @@
     <dimen name="content_horizontal_margin">16dp</dimen>
     <dimen name="content_vertical_margin">20dp</dimen>
 
-    <dimen name="normal_text_size">16sp</dimen>
-    <dimen name="small_text_size">12sp</dimen>
+    <dimen name="sub_header_text_size">16sp</dimen>
+    <dimen name="normal_text_size">12sp</dimen>
+    <dimen name="small_text_size">10sp</dimen>
 
     <dimen name="dimens_3dp">3dp</dimen>
+    <dimen name="dimens_4dp">4dp</dimen>
+    <dimen name="dimens_6dp">6dp</dimen>
     <dimen name="dimens_15dp">15dp</dimen>
 
     <dimen name="dimens_50dp">50dp</dimen>

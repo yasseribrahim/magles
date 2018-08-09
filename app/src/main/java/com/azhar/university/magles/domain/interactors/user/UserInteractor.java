@@ -1,6 +1,7 @@
 package com.azhar.university.magles.domain.interactors.user;
 
 import com.azhar.university.magles.domain.interactors.MainInteractor;
+import com.azhar.university.magles.domain.models.User;
 
 import java.io.File;
 
@@ -13,9 +14,7 @@ public interface UserInteractor extends MainInteractor {
 
     void logout();
 
-    void editProfile(String fullName);
-
-    void changeProfilePicture(File file);
+    void editProfile(User user);
 
     interface UserCallbackStates extends CallbackStates {
         void onLoginComplete();
@@ -23,7 +22,5 @@ public interface UserInteractor extends MainInteractor {
         void onLogoutComplete();
 
         void onEditProfileComplete();
-
-        void onChangeProfilePictureComplete();
     }
 }

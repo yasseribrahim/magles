@@ -7,8 +7,10 @@ import com.azhar.university.magles.domain.models.User;
 import java.util.List;
 
 import io.reactivex.Observable;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 /**
@@ -19,6 +21,9 @@ public interface Controller {
     interface UserController {
         @GET(BuildConfig.BASE_URL + "authentication/login")
         Observable<User> login(@Header("Authorization") String authorization);
+
+        @POST(BuildConfig.BASE_URL + "users/edit")
+        Observable<User> edit(@Header("Authorization") String authorization, @Body User user);
     }
 
     interface OrderController {

@@ -40,6 +40,14 @@
 
     <string name="empty_orders">لاتوجد طلبات مضافة حتى الان</string>
 
+    <string name="order_owner">مقدم الطلب</string>
+    <string name="order_title">العنوان</string>
+    <string name="order_date">التاريخ</string>
+    <string name="order_current_status">الحالة</string>
+    <string name="order_content">محتوى</string>
+    <string name="order_note">ملاحظات</string>
+    <string name="order_history">مراحل الطلب</string>
+
     <string name="message_general_error">حدث خطاء! برجاء المحاولة لاحقا</string>
     <string name="message_error_connection">من فضلك ، تحقق من اتصالك بالانترنت!</string>
     <string name="message_edit_profile_complete">Edit Profile Complete Success</string>

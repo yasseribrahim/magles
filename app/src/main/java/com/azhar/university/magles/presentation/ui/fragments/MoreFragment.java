@@ -155,7 +155,7 @@ public class MoreFragment extends BaseFragment implements UserView, MoreView, On
                             profilePic.setImageBitmap(bitmapSmall);
                             galleryAddPic();
 
-                            userPresenter.changeProfilePicture(new File(imageFile));
+//                            userPresenter.changeProfilePicture(new File(imageFile));
                         } else {
                             showToastShort(getActivity().getString(R.string.message_general_error));
                         }
@@ -181,7 +181,7 @@ public class MoreFragment extends BaseFragment implements UserView, MoreView, On
                                     }
                                 });
 
-                                userPresenter.changeProfilePicture(new File(uri.getPath()));
+//                                userPresenter.changeProfilePicture(new File(uri.getPath()));
                             } else {
                                 showToastShort(getActivity().getString(R.string.message_profile_image_max_size));
                             }
