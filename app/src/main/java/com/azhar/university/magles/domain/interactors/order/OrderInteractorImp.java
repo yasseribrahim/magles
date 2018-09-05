@@ -96,7 +96,8 @@ public class OrderInteractorImp extends BaseInteractor implements OrderInteracto
 
         @Override
         public void onError(Throwable e) {
-            super.onError(e);if (e instanceof HttpException) {
+            super.onError(e);
+            if (e instanceof HttpException) {
                 if (((HttpException) e).code() == HttpsURLConnection.HTTP_UNAUTHORIZED) {
                     callback.unAuthorized();
                     return;

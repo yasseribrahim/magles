@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "169208763711",
+    "firebase_url": "https://magles-215515.firebaseio.com",
+    "project_id": "magles-215515",
+    "storage_bucket": "magles-215515.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:169208763711:android:06e13a86eb2919f6",
+        "android_client_info": {
+          "package_name": "com.azhar.university.magles"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "169208763711-2p8t27iadog5h8v2cqich7u3ivppn6g1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpKA_AwkWgd9n1Md6WjCtCq_DDttMSL5c"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -20,6 +20,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.azhar.university.magles.R;
+import com.azhar.university.magles.domain.utils.UserManager;
+import com.azhar.university.magles.presentation.ui.activities.SplashActivity;
 import com.azhar.university.magles.presentation.ui.dialogs.ProgressDialogFragment;
 import com.azhar.university.magles.presentation.ui.utils.RequestsPermissionCodes;
 import com.google.android.gms.common.ConnectionResult;
@@ -37,7 +39,7 @@ import java.util.Locale;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLHandshakeException;
 
-import retrofit2.adapter.rxjava2.HttpException;
+import retrofit2.HttpException;
 
 public abstract class BaseFragment extends Fragment {
     private AppCompatActivity activity;
@@ -179,7 +181,8 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void unAuthorized() {
-
+        UserManager.getInstance().logout();
+        startActivity(new Intent(getContext(), SplashActivity.class));
     }
 
     protected void showToastShort(String msg) {

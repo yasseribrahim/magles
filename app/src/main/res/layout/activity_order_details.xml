@@ -5,6 +5,10 @@
     android:id="@+id/container_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/dimens_10dp"
+    android:layout_marginBottom="@dimen/dimens_10dp"
+    android:layout_marginStart="@dimen/dimens_10dp"
+    android:layout_marginEnd="@dimen/dimens_10dp"
     tools:context="com.azhar.university.magles.presentation.ui.activities.OrderDetailsActivity">
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -138,11 +142,12 @@
 
             <TextView
                 android:id="@+id/hint_history"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/hint_note"
                 android:layout_margin="@dimen/dimens_3dp"
+                android:gravity="center"
                 android:text="@string/order_history"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textSize="@dimen/normal_text_size" />
@@ -153,7 +158,9 @@
                 android:layout_height="match_parent"
                 android:layout_below="@+id/hint_history"
                 app:layoutManager="LinearLayoutManager"
-                tools:listitem="@layout/item_order_history" />
+                tools:listitem="@layout/item_order_history"
+                android:layout_marginStart="@dimen/dimens_6dp"
+                android:layout_marginEnd="@dimen/dimens_6dp"/>
         </RelativeLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 </android.support.constraint.ConstraintLayout>
